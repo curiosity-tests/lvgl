@@ -43,8 +43,8 @@ on:
 # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#concurrency
 # Ensure that only one commit will be running tests at a time on each PR
 concurrency:
-  group: ${{ github.ref }}-${{ github.workflow }}-${{ inputs.leg || 'push' }}
-  cancel-in-progress: true
+  group: ${{ github.ref }}-${{ github.workflow }}-${{ inputs.leg || 'push' }}-${{ inputs.racecar_run }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
