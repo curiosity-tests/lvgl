@@ -51,11 +51,11 @@ permissions:
   id-token: write
 
 env:
-  CHALK_ON: ${{ github.event_name == 'workflow_dispatch' && inputs.leg != 'baseline' }}
+  CHALK_ON: ${{ inputs.leg == 'instrumented' }}
 
 jobs:
   build-ubuntu:
-    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
+    if: ${{ 'push' != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -254,7 +254,7 @@ jobs:
       run: python tests/main.py --report --update-image test --auto-clean --keep-report
     - name: Code coverage analysis
       run: |
-        if [ "${{ github.event_name }}" = "pull_request" ]; then
+        if [ "${{ 'push' }}" = "pull_request" ]; then
           git fetch --no-tags --prune origin ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
           MB=$(git merge-base ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
           echo "Merge-base: $MB"
