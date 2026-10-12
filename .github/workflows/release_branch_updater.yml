@@ -1,9 +1,6 @@
 name: Port repo release update
 
 on:
-  schedule:
-    # Runs at 00:00 UTC on the 1st and 15th day of each month
-    - cron: '0 0 1,15 * *'
   push:
     branches:
       - master
